@@ -1,15 +1,12 @@
-export function fetchCountries(restCountry) {
-    const webRequest = {
-        link: 'https://restcountries.com/v3.1/name',
-        options: 'name,capital,population,languages,flags',
-    }
-    
-    return fetch(`${webRequest.link}/${restCountry}?fields=${webRequest.options}`)
-        .then(response => {
-            if (!response.ok) {
-                throw Error(response.status);
-            };
+const API_URL = 'https://restcountries.com/v3.1/name';
 
-            return response.json();
-        });
-};
+export function fetchCountries(name) {
+  return fetch(`${API_URL}/${name}?fields=name,capital,population,flags,languages`).then(
+    response => {
+      if (response.ok) {
+        return response.json();
+      }
+      return Promise.reject('Oops, there is no country with that name');
+    }
+  );
+}
